@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarraApp | Diseña, Personaliza y Reserva la Barra Perfecta para tu Evento</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lilac: {
+                            DEFAULT: '#4A154B', // Rich Plum/Dark Lilac primary
+                            light: '#6B21A8',   // Purple accent
+                            dark: '#3B0764',    // Dark violet base
+                            soft: 'rgba(74, 21, 75, 0.08)',
+                            pastel: '#E9D5FF',  // Soft lavender pastel
+                            mist: '#F3E8FF',    // Ultra light lilac
+                            blush: '#FAF5FF'    // Creamy lilac background
+                        },
+                        crema: '#FCF9FF'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -10px rgba(74, 21, 75, 0.08)',
+                        'glow': '0 0 25px rgba(107, 33, 168, 0.2)',
+                        'card': '0 20px 40px -15px rgba(59, 7, 100, 0.06)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FCF9FF;
+            color: #2D152B;
+            overflow-x: hidden;
+        }
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-gradient-soft {
+            background: linear-gradient(135deg, #FCF9FF 0%, #F3E8FF 50%, #E9D5FF 100%);
+        }
+        .bg-lilac-gradient {
+            background: linear-gradient(135deg, #4A154B 0%, #6B21A8 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 213, 255, 0.6);
+        }
+        .interactive-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(74, 21, 75, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #E9D5FF;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4A154B;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-lilac selection:text-white">
+
+    <!-- Encabezado / Header -->
+    <header class="sticky top-0 z-50 glass-card transition-all duration-300 border-b border-lilac-pastel/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-2xl bg-lilac flex items-center justify-center text-white shadow-md transform group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-cookie-bite text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold font-serif-title tracking-tight text-lilac">
+                    Barra<span class="text-purple-600">App</span>
+                </span>
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#inicio" class="text-sm font-semibold text-gray-700 hover:text-lilac transition-colors">Inicio</a>
+                <a href="#como-funciona" class="text-sm font-semibold text-gray-700 hover:text-lilac transition-colors">Cómo funciona</a>
+                <a href="#caracteristicas" class="text-sm font-semibold text-gray-700 hover:text-lilac transition-colors">Servicios</a>
+                <a href="#simulador" class="text-sm font-semibold text-gray-700 hover:text-lilac transition-colors">Simulador</a>
+                <a href="#contacto" class="text-sm font-semibold text-gray-700 hover:text-lilac transition-colors">Contacto</a>
+            </nav>
+
+            <!-- CTA Header Button -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#simulador" class="bg-lilac text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-lilac-light shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 group">
+                    <span>Diseña tu barra</span>
+                    <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-xl text-lilac hover:bg-lilac-mist transition-colors" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-crema border-b border-lilac-pastel px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-800 hover:bg-lilac-mist">Inicio</a>
+            <a href="#como-funciona" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-800 hover:bg-lilac-mist">Cómo funciona</a>
+            <a href="#caracteristicas" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-800 hover:bg-lilac-mist">Servicios</a>
+            <a href="#simulador" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-800 hover:bg-lilac-mist">Simulador</a>
+            <a href="#contacto" class="block px-3 py-2 rounded-lg text-base font-medium text-gray-800 hover:bg-lilac-mist">Contacto</a>
+            <a href="#simulador" class="w-full mt-2 text-center bg-lilac text-white px-6 py-3 rounded-full font-medium text-sm block">
+                Diseña tu barra
+            </a>
+        </div>
+    </header>
+
+    <!-- Sección Principal (Hero) -->
+    <section id="inicio" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-soft">
+        <!-- Floating decorative elements -->
+        <div class="absolute -top-10 -right-10 w-72 h-72 bg-purple-300/40 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute top-1/2 -left-20 w-80 h-80 bg-lilac-pastel/60 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-lilac-pastel text-lilac text-xs sm:text-sm font-semibold shadow-sm">
+                        <span class="flex h-2 w-2 rounded-full bg-lilac animate-ping"></span>
+                        <i class="fa-solid fa-sparkles text-purple-600"></i>
+                        <span>Comienza a diseñar tu evento</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-serif-title text-gray-900 leading-[1.15]">
+                        ¡Diseña la barra <br class="hidden sm:inline"/>
+                        <span class="text-transparent bg-clip-text bg-lilac-gradient">perfecta para tu evento!</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light">
+                        En <strong class="text-lilac font-semibold">BarraApp</strong> transformamos tus ideas en experiencias únicas. Personaliza tu barra de snacks, dulces o postres, visualiza cómo quedará, compara opciones y encuentra la mejor alternativa según tu estilo, tipo de evento y presupuesto, todo desde un mismo lugar.
+                    </p>
+
+                    <!-- Hero CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#simulador" class="w-full sm:w-auto bg-lilac text-white px-8 py-4 rounded-full font-bold text-base hover:bg-lilac-light shadow-xl hover:shadow-glow transition-all duration-300 text-center flex items-center justify-center gap-3 group">
+                            <span>Comienza a diseñar</span>
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-300 group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                        <a href="#como-funciona" class="w-full sm:w-auto bg-white/90 hover:bg-white text-lilac border border-lilac-pastel px-8 py-4 rounded-full font-semibold text-base shadow-sm hover:shadow transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-circle-play text-lilac"></i>
+                            <span>Ver cómo funciona</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="pt-6 border-t border-lilac-pastel/50 flex flex-wrap items-center justify-center lg:justify-start gap-8 text-xs text-gray-500">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle text-lilac text-base"></i>
+                            <span>Cotizaciones al instante</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle text-lilac text-base"></i>
+                            <span>Proveedores verificados</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle text-lilac text-base"></i>
+                            <span>Reserva 100% segura</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Preview Visual -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Background glow effect -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-lilac/20 to-lilac-pastel/60 rounded-3xl transform rotate-3 scale-105 blur-lg"></div>
+
+                        <!-- Card preview window -->
+                        <div class="relative rounded-3xl overflow-hidden glass-card border border-white p-4 shadow-card">
+                            <div class="relative h-80 sm:h-96 rounded-2xl overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1000&q=80" 
+                                     alt="Barra Dulce Vintage Luxe deslumbrante" 
+                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                     onerror="this.src='https://placehold.co/800x600/4A154B/FFFFFF?text=Barra+Dulce+Vintage+Luxe'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                                
+                                <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl glass-card border border-white/50 text-gray-900 shadow-xl">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-xs font-bold uppercase tracking-wider text-lilac bg-lilac-pastel px-2.5 py-0.5 rounded-full">Vista Previa 3D</span>
+                                        <div class="flex text-amber-400 text-xs">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <h3 class="font-bold text-gray-900 text-base">Barra Dulce Vintage Luxe</h3>
+                                    <p class="text-xs text-gray-600">Torres de macarons, cupcakes artesanales, repostería fina e iluminación elegante</p>
+                                </div>
+                            </div>
+
+                            <!-- Floating badge 1 -->
+                            <div class="absolute -top-4 -left-4 bg-white p-3 rounded-2xl shadow-lg border border-lilac-pastel flex items-center gap-3 animate-bounce" style="animation-duration: 4s;">
+                                <div class="w-10 h-10 rounded-xl bg-lilac-mist flex items-center justify-center text-lilac font-bold text-lg">
+                                    <i class="fa-solid fa-calculator"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Presupuesto estimado</p>
+                                    <p class="text-sm font-bold text-lilac">100% Ajustable</p>
+                                </div>
+                            </div>
+
+                            <!-- Floating badge 2 -->
+                            <div class="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-lg border border-lilac-pastel flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-lg">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Reserva online</p>
+                                    <p class="text-sm font-bold text-gray-800">Confirmación Inmediata</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Características -->
+    <section id="caracteristicas" class="py-20 bg-crema relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-lilac bg-lilac-pastel/60 px-4 py-1.5 rounded-full border border-lilac-pastel">
+                    Todo lo que necesitas
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-serif-title text-gray-900 mt-4">
+                    Diseña sin límites, reserva sin complicaciones
+                </h2>
+                <p class="text-gray-600 text-base sm:text-lg mt-3">
+                    BarraApp integra herramientas innovadoras para transformar la organización de snacks y postres en una experiencia fácil y divertida.
+                </p>
+            </div>
+
+            <!-- Features Grid (5 Cards) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Feature 1: Personalización -->
+                <div class="glass-card rounded-3xl p-8 interactive-card border border-lilac-pastel/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-lilac/10 text-lilac flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">1. Personalización total</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Elige el tipo de barra (salada, dulce, mística o mixta), variedad de productos, temáticas exclusivas, paleta de colores y elementos decorativos adaptados 100% al estilo de tu celebración.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-lilac-pastel/40 flex items-center text-xs font-semibold text-lilac">
+                        <span>Configura colores, toppings y temáticas</span>
+                        <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Visualización -->
+                <div class="glass-card rounded-3xl p-8 interactive-card border border-lilac-pastel/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-lilac/10 text-lilac flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">2. Visualización previa</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Observa una maqueta interactiva o mockup de cómo lucirá exactamente tu barra de snacks o postres antes de tomar una decisión o realizar cualquier pago.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-lilac-pastel/40 flex items-center text-xs font-semibold text-lilac">
+                        <span>Sin sorpresas el día del evento</span>
+                        <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Comparación de Opciones -->
+                <div class="glass-card rounded-3xl p-8 interactive-card border border-lilac-pastel/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-lilac/10 text-lilac flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fa-solid fa-code-compare"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">3. Comparación inteligente</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Compara de forma objetiva entre diferentes proveedores, tipos de paquetes, variedad de menú e inclusiones para elegir siempre la propuesta con el mejor valor.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-lilac-pastel/40 flex items-center text-xs font-semibold text-lilac">
+                        <span>Transparencia total de ofertas</span>
+                        <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Cotizaciones -->
+                <div class="glass-card rounded-3xl p-8 interactive-card border border-lilac-pastel/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-lilac/10 text-lilac flex items-center justify-center text-2xl mb-6 shadow-inner">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">4. Cotizaciones a tu medida</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Obtén desglose presupuestal inmediato calculado exactamente según tu número de invitados, tipo de menú y nivel de sofisticación deseado.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-lilac-pastel/40 flex items-center text-xs font-semibold text-lilac">
+                        <span>Precios claros sin tarifas ocultas</span>
+                        <i class="fa-solid fa-chevron-right ml-auto"></i>
+                    </div>
+                </div>
+
+                <!-- Feature 5: Reservaciones -->
+                <div class="glass-card rounded-3xl p-8 interactive-card border border-lilac-pastel/60 flex flex-col justify-between md:col-span-2 lg:col-span-2 bg-gradient-to-r from-white via-crema to-lilac-blush">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-lilac text-white flex items-center justify-center text-2xl mb-6 shadow-md">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">5. Reservaciones centralizadas</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed max-w-2xl">
+                            Asegura la fecha de tu evento con un par de clics. Gestiona anticipos, confirmación de horarios, requerimientos de montaje y comunicación directa con el proveedor desde un portal único.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-lilac-pastel/40 flex items-center text-xs font-semibold text-lilac">
+                        <span>Garantía de servicio y gestión unificada</span>
+                        <i class="fa-solid fa-circle-check ml-auto text-emerald-600 text-lg"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Simulator / Builder Section -->
+    <section id="simulador" class="py-20 bg-gradient-soft border-y border-lilac-pastel/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-white bg-lilac px-4 py-1.5 rounded-full shadow-sm">
+                    Prototipo Interactivo
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-serif-title text-gray-900 mt-4">
+                    Prueba el Diseñador de Barras
+                </h2>
+                <p class="text-gray-600 text-base mt-2">
+                    Selecciona los elementos de tu evento y descubre cómo BarraApp cotiza y personaliza tu experiencia al instante.
+                </p>
+            </div>
+
+            <!-- Simulator Card Container -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-lilac-pastel shadow-xl max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Controls Column -->
+                    <div class="lg:col-span-6 space-y-6">
+                        
+                        <!-- Step 1: Tipo de Barra -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 mb-2">1. Selecciona el Tipo de Barra</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button type="button" onclick="selectBarType('sweet', this)" class="bar-type-btn active border-2 border-lilac bg-lilac-mist p-3 rounded-2xl text-center text-xs sm:text-sm font-semibold text-lilac transition-all">
+                                    <i class="fa-solid fa-candy-cane text-lg block mb-1"></i>
+                                    Dulces & Postres
+                                </button>
+                                <button type="button" onclick="selectBarType('salty', this)" class="bar-type-btn border-2 border-gray-200 bg-white p-3 rounded-2xl text-center text-xs sm:text-sm font-semibold text-gray-600 hover:border-lilac-pastel transition-all">
+                                    <i class="fa-solid fa-pepper-hot text-lg block mb-1"></i>
+                                    Snacks Salados
+                                </button>
+                                <button type="button" onclick="selectBarType('mix', this)" class="bar-type-btn border-2 border-gray-200 bg-white p-3 rounded-2xl text-center text-xs sm:text-sm font-semibold text-gray-600 hover:border-lilac-pastel transition-all">
+                                    <i class="fa-solid fa-star text-lg block mb-1"></i>
+                                    Mixta Premium
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Número de Invitados -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-bold text-gray-800">2. Número de Invitados</label>
+                                <span id="guest-count-label" class="text-sm font-extrabold text-lilac bg-lilac-pastel px-3 py-1 rounded-full">80 Personas</span>
+                            </div>
+                            <input type="range" id="guest-slider" min="30" max="300" value="80" step="10" oninput="updateGuestCount(this.value)" class="w-full accent-lilac cursor-pointer">
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>30 personas</span>
+                                <span>150 personas</span>
+                                <span>300 personas</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Estilo Visual / Decoración -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 mb-2">3. Temática & Estilo Visual</label>
+                            <select id="theme-select" onchange="updateThemePreview()" class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-lilac">
+                                <option value="vintage">Elegante Lilac Luxe (Pampas, Flores Pastel & Luces Warm)</option>
+                                <option value="modern">Modern Minimalist (Acrílico, Neón & Tonos Pastel)</option>
+                                <option value="fiesta">Fiesta Neón & Botanas Picosas (Snack Bar Juvenil)</option>
+                                <option value="boho">Boho Chic (Tonos Neutros, Crema & Lila Soft)</option>
+                            </select>
+                        </div>
+
+                        <!-- Addons / extras -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-800 mb-2">4. Complementos opcionales</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 bg-white/60 p-2.5 rounded-xl border border-lilac-pastel/50 cursor-pointer text-xs sm:text-sm">
+                                    <input type="checkbox" id="extra-staff" onchange="calculatePrice()" class="accent-lilac w-4 h-4 rounded">
+                                    <span>Personal de atención y servicio durante el evento</span>
+                                </label>
+                                <label class="flex items-center gap-3 bg-white/60 p-2.5 rounded-xl border border-lilac-pastel/50 cursor-pointer text-xs sm:text-sm">
+                                    <input type="checkbox" id="extra-personalized" onchange="calculatePrice()" class="accent-lilac w-4 h-4 rounded" checked>
+                                    <span>Empaques y etiquetas personalizadas con nombre/logo</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Visual Preview & Live Price Calculation -->
+                    <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-lilac-pastel shadow-lg text-center flex flex-col justify-between h-full space-y-6">
+                        
+                        <div>
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                                <span class="text-xs font-bold text-lilac uppercase tracking-wider">Simulación en tiempo real</span>
+                                <span class="text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full font-semibold">
+                                    <i class="fa-solid fa-check"></i> Disponible para reserva
+                                </span>
+                            </div>
+
+                            <!-- Image Preview Dynamic -->
+                            <div class="relative h-48 sm:h-56 rounded-2xl overflow-hidden mb-4 bg-gray-100">
+                                <img id="preview-image" 
+                                     src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" 
+                                     alt="Vista previa de barra" 
+                                     class="w-full h-full object-cover transition-all duration-500">
+                                <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full font-medium" id="preview-theme-badge">
+                                    Elegante Lilac Luxe
+                                </div>
+                            </div>
+
+                            <!-- Live Price Box -->
+                            <div class="bg-crema p-4 rounded-2xl border border-lilac-pastel/60">
+                                <p class="text-xs text-gray-500 font-medium">Cotización estimada en tiempo real</p>
+                                <div class="text-3xl sm:text-4xl font-extrabold text-lilac my-1 font-serif-title" id="calculated-price">
+                                    $4,200 <span class="text-xs font-sans text-gray-500">MXN</span>
+                                </div>
+                                <p class="text-xs text-gray-500" id="price-detail-text">Incluye barra de Dulces & Postres para 80 personas</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <a href="#contacto" class="w-full bg-lilac text-white py-3.5 px-6 rounded-full font-bold text-sm hover:bg-lilac-light transition-all shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Solicitar esta cotización</span>
+                            </a>
+                            <p class="text-xs text-gray-400">Sin compromiso de pago inicial • Ajustable en cualquier momento</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección "¿Cómo funciona?" -->
+    <section id="como-funciona" class="py-20 bg-crema">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-lilac bg-lilac-pastel/60 px-4 py-1.5 rounded-full border border-lilac-pastel">
+                    Paso a Paso
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold font-serif-title text-gray-900 mt-4">
+                    ¿Cómo funciona BarraApp?
+                </h2>
+                <p class="text-gray-600 text-base mt-2">
+                    De la idea a la mesa de tu evento en 5 sencillos pasos interactivos.
+                </p>
+            </div>
+
+            <!-- Steps Workflow (Horizontal on Desktop, Vertical on Mobile) -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+                
+                <!-- Connector Line for Desktop -->
+                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-lilac-pastel/70 -translate-y-6 z-0"></div>
+
+                <!-- Step 1 -->
+                <div class="glass-card p-6 rounded-2xl relative z-10 text-center border border-lilac-pastel/60 flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-lilac text-white font-bold flex items-center justify-center text-lg mb-4 shadow-md ring-4 ring-crema">
+                        1
+                    </div>
+                    <div class="text-lilac text-xl mb-2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm mb-1">Buscar</h3>
+                    <p class="text-xs text-gray-600">Explora conceptos, temáticas e ideas según el tipo de fiesta o reunión.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card p-6 rounded-2xl relative z-10 text-center border border-lilac-pastel/60 flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-lilac text-white font-bold flex items-center justify-center text-lg mb-4 shadow-md ring-4 ring-crema">
+                        2
+                    </div>
+                    <div class="text-lilac text-xl mb-2">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm mb-1">Personalizar</h3>
+                    <p class="text-xs text-gray-600">Selecciona bocadillos, dulces, paleta cromática y nivel de decoración.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card p-6 rounded-2xl relative z-10 text-center border border-lilac-pastel/60 flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-lilac text-white font-bold flex items-center justify-center text-lg mb-4 shadow-md ring-4 ring-crema">
+                        3
+                    </div>
+                    <div class="text-lilac text-xl mb-2">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm mb-1">Visualizar</h3>
+                    <p class="text-xs text-gray-600">Mira el render o vista previa de tu barra antes de realizar la compra.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-card p-6 rounded-2xl relative z-10 text-center border border-lilac-pastel/60 flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-lilac text-white font-bold flex items-center justify-center text-lg mb-4 shadow-md ring-4 ring-crema">
+                        4
+                    </div>
+                    <div class="text-lilac text-xl mb-2">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm mb-1">Comparar & Cotizar</h3>
+                    <p class="text-xs text-gray-600">Evalúa presupuestos en tiempo real y elige la mejor relación valor-precio.</p>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="glass-card p-6 rounded-2xl relative z-10 text-center border border-lilac-pastel/60 flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full bg-lilac text-white font-bold flex items-center justify-center text-lg mb-4 shadow-md ring-4 ring-crema">
+                        5
+                    </div>
+                    <div class="text-lilac text-xl mb-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 text-sm mb-1">Reservar</h3>
+                    <p class="text-xs text-gray-600">Aparta la fecha en línea y relájate mientras los expertos se encargan.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Showcase -->
+    <section class="py-16 bg-gradient-soft">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold font-serif-title text-gray-900">
+                    Inspiración para tu próximo evento
+                </h2>
+                <p class="text-sm text-gray-600 mt-2">Explora barras de celebración reales creadas por la comunidad y proveedores de BarraApp</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Boda / Barra Dulce & Repostería Elegante -->
+                <div class="relative h-72 rounded-2xl overflow-hidden group shadow-md border border-lilac-pastel/50">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" 
+                         alt="Boda / Elegante Barra de Postres & Pastel" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                         onerror="this.src='https://placehold.co/600x600/4A154B/FFFFFF?text=Boda+Gourmet'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-5">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-200 bg-lilac/80 px-2.5 py-0.5 rounded-full inline-block mb-1">Bodas</span>
+                            <h4 class="text-sm font-bold text-white">Mesa de Postres Luxe & Florería</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cumpleaños / Fiesta de Repostería Pastel -->
+                <div class="relative h-72 rounded-2xl overflow-hidden group shadow-md border border-lilac-pastel/50">
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80" 
+                         alt="Cumpleaños / Fiesta con Dulces & Globos Pastel" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                         onerror="this.src='https://placehold.co/600x600/4A154B/FFFFFF?text=Cumpleanos+Pastel'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-5">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-200 bg-lilac/80 px-2.5 py-0.5 rounded-full inline-block mb-1">Cumpleaños</span>
+                            <h4 class="text-sm font-bold text-white">Barra Dulce Temática Pastel</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graduaciones / Snack Bar & Charcutería Gourmet -->
+                <div class="relative h-72 rounded-2xl overflow-hidden group shadow-md border border-lilac-pastel/50">
+                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80" 
+                         alt="Graduación / Snack Bar Salado & Tabla Gourmet" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                         onerror="this.src='https://placehold.co/600x600/4A154B/FFFFFF?text=Snacks+Gourmet'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-5">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-200 bg-lilac/80 px-2.5 py-0.5 rounded-full inline-block mb-1">Graduaciones</span>
+                            <h4 class="text-sm font-bold text-white">Snack Bar Salado & Botanas</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fiesta XV / Barra Neón & Chamoyadas Juveniles -->
+                <div class="relative h-72 rounded-2xl overflow-hidden group shadow-md border border-lilac-pastel/50">
+                    <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80" 
+                         alt="Fiesta de XV Años / Barra Neón, Bebidas & Dulces" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                         onerror="this.src='https://placehold.co/600x600/4A154B/FFFFFF?text=Barra+Neon'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-5">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-200 bg-lilac/80 px-2.5 py-0.5 rounded-full inline-block mb-1">XV Años & Fiestas</span>
+                            <h4 class="text-sm font-bold text-white">Barra Neón, Chamoy & Golosinas</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Llamado a la Acción (CTA) -->
+    <section class="py-20 bg-lilac-gradient text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-8">
+            <i class="fa-solid fa-cake-candles text-4xl text-purple-200 animate-pulse"></i>
+            <h2 class="text-3xl sm:text-5xl font-extrabold font-serif-title leading-tight">
+                Tu evento merece algo único.<br class="hidden sm:inline"/>
+                ¡Hazlo realidad con BarraApp!
+            </h2>
+            <p class="text-lg text-purple-100 max-w-2xl mx-auto font-light">
+                Olvídate de hacer decenas de llamadas o esperar cotizaciones por días. Diseña, compara y asegura la barra de postres o botanas ideal hoy mismo.
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#simulador" class="w-full sm:w-auto bg-white text-lilac px-10 py-4 rounded-full font-bold text-base hover:bg-crema shadow-xl hover:shadow-2xl transition-all duration-300">
+                    Crear mi barra
+                </a>
+                <a href="#contacto" class="w-full sm:w-auto border-2 border-white/40 hover:border-white text-white px-8 py-4 rounded-full font-semibold text-base transition-all">
+                    Hablar con un asesor
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Pre-register Form Section -->
+    <section id="contacto" class="py-20 bg-crema">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 border border-lilac-pastel shadow-lg">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold font-serif-title text-gray-900">¿Tienes un evento en puerta o eres proveedor?</h2>
+                    <p class="text-sm text-gray-600 mt-2">Déjanos tus datos y sé de los primeros en experimentar BarraApp</p>
+                </div>
+
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Nombre completo</label>
+                            <input type="text" required placeholder="Ej. Ana Sofía Martínez" class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-lilac">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Correo electrónico</label>
+                            <input type="email" required placeholder="ana@ejemplo.com" class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-lilac">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Tipo de Interés</label>
+                            <select class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-lilac">
+                                <option>Quiero organizar un evento</option>
+                                <option>Soy proveedor de barras y quiero unirme</option>
+                                <option>Información general</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Fecha estimada del evento</label>
+                            <input type="date" class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-lilac">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-700 mb-2">Mensaje o detalles de tu idea</label>
+                        <textarea rows="3" placeholder="Cuéntanos sobre tu evento (boda, XV años, graduación, corporativo)..." class="w-full bg-white border border-lilac-pastel rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-lilac"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-lilac text-white font-bold py-4 rounded-xl hover:bg-lilac-light transition-all shadow-md">
+                        Enviar mensaje
+                    </button>
+                </form>
+
+                <div id="form-feedback" class="hidden mt-4 p-4 rounded-xl bg-emerald-100 text-emerald-800 text-sm text-center font-medium">
+                    <i class="fa-solid fa-circle-check mr-2"></i> ¡Gracias por comunicarte! Un asesor de BarraApp te contactará muy pronto.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página / Footer -->
+    <footer class="bg-gray-950 text-gray-300 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-xl bg-lilac flex items-center justify-center text-white font-bold text-sm">
+                            <i class="fa-solid fa-cookie-bite"></i>
+                        </div>
+                        <span class="text-xl font-bold font-serif-title text-white">Barra<span class="text-lilac-pastel">App</span></span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        La primera plataforma digital interactiva para diseñar, cotizar, comparar y reservar barras de dulces, snacks y postres para todo tipo de eventos.
+                    </p>
+                </div>
+
+                <!-- Col 2: Enlaces rápidos -->
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#inicio" class="hover:text-lilac-pastel transition-colors">Inicio</a></li>
+                        <li><a href="#caracteristicas" class="hover:text-lilac-pastel transition-colors">Características & Servicios</a></li>
+                        <li><a href="#simulador" class="hover:text-lilac-pastel transition-colors">Simulador de Barras</a></li>
+                        <li><a href="#como-funciona" class="hover:text-lilac-pastel transition-colors">¿Cómo funciona?</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Legal & Proveedores -->
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Proveedores</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#contacto" class="hover:text-lilac-pastel transition-colors">Registra tu empresa de barras</a></li>
+                        <li><a href="#" class="hover:text-lilac-pastel transition-colors">Beneficios para banqueteras</a></li>
+                        <li><a href="#" class="hover:text-lilac-pastel transition-colors">Términos del Servicio</a></li>
+                        <li><a href="#" class="hover:text-lilac-pastel transition-colors">Aviso de Privacidad</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Redes sociales -->
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Síguenos</h4>
+                    <p class="text-xs text-gray-400 mb-3">Encuentra más inspiración en nuestras redes:</p>
+                    <div class="flex space-x-3 text-lg">
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-900 hover:bg-lilac text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-900 hover:bg-lilac text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-900 hover:bg-lilac text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-gray-900 hover:bg-lilac text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-900 pt-6 text-center text-xs text-gray-500">
+                <p>&copy; 2026 BarraApp. Todos los derechos reservados. Diseña, personaliza y celebra a tu manera.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dynamic JavaScript Logic -->
+    <script>
+        // State variables for interactive simulator
+        let currentBarType = 'sweet';
+        let currentGuests = 80;
+        
+        const barPrices = {
+            sweet: 45, // MXN per guest base
+            salty: 40,
+            mix: 55
+        };
+
+        const themeImages = {
+            vintage: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80',
+            modern: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80',
+            fiesta: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
+            boho: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80'
+        };
+
+        const themeTitles = {
+            vintage: 'Elegante Lilac Luxe',
+            modern: 'Modern Minimalist',
+            fiesta: 'Fiesta Neón & Chamoy',
+            boho: 'Boho Chic'
+        };
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking links
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Interactive Simulator Logic
+        function selectBarType(type, element) {
+            currentBarType = type;
+            
+            // Highlight active button
+            document.querySelectorAll('.bar-type-btn').forEach(btn => {
+                btn.classList.remove('border-lilac', 'bg-lilac-mist', 'text-lilac');
+                btn.classList.add('border-gray-200', 'bg-white', 'text-gray-600');
+            });
+
+            element.classList.remove('border-gray-200', 'bg-white', 'text-gray-600');
+            element.classList.add('border-lilac', 'bg-lilac-mist', 'text-lilac');
+
+            calculatePrice();
+        }
+
+        function updateGuestCount(val) {
+            currentGuests = parseInt(val);
+            document.getElementById('guest-count-label').innerText = `${currentGuests} Personas`;
+            calculatePrice();
+        }
+
+        function updateThemePreview() {
+            const select = document.getElementById('theme-select');
+            const selectedTheme = select.value;
+            
+            const imgElement = document.getElementById('preview-image');
+            const badgeElement = document.getElementById('preview-theme-badge');
+
+            if (themeImages[selectedTheme]) {
+                imgElement.src = themeImages[selectedTheme];
+            }
+            if (themeTitles[selectedTheme]) {
+                badgeElement.innerText = themeTitles[selectedTheme];
+            }
+        }
+
+        function calculatePrice() {
+            let baseRate = barPrices[currentBarType] || 45;
+            let total = baseRate * currentGuests;
+
+            // Extras
+            const hasStaff = document.getElementById('extra-staff').checked;
+            const hasPersonalized = document.getElementById('extra-personalized').checked;
+
+            if (hasStaff) total += 800; // Flat fee for attendant
+            if (hasPersonalized) total += (currentGuests * 5); // 5 MXN extra per unit
+
+            // Format Currency
+            const formattedPrice = '$' + total.toLocaleString('es-MX');
+            document.getElementById('calculated-price').innerText = formattedPrice;
+
+            // Update text description
+            let typeText = 'Dulces & Postres';
+            if (currentBarType === 'salty') typeText = 'Snacks Salados';
+            if (currentBarType === 'mix') typeText = 'Mixta Gourmet';
+
+            document.getElementById('price-detail-text').innerText = `Incluye barra de ${typeText} para ${currentGuests} personas`;
+        }
+
+        // Contact Form Handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            document.getElementById('contact-form').reset();
+
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Initialize default state on load
+        window.onload = function() {
+            calculatePrice();
+        };
+    </script>
+</body>
+</html>
